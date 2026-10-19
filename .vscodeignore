@@ -1,0 +1,13 @@
+# Everything the extension does not need at runtime.
+# The package ends up as: extension.js, src/, media/, resources/,
+# package.json, README.md, CHANGELOG.md, LICENSE.
+
+test/**
+backup/**
+**/*.ps1
+.vscodeignore
+.gitignore
+.git/**
+.vscode/**
+**/*.vsix
+**/.DS_Store

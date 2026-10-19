@@ -1,0 +1,212 @@
+{
+  "name": "claude-tasks-panel",
+  "displayName": "Claude Background Tasks",
+  "description": "Sidebar panel showing Claude Code's background agents, workflows and shells: what is running, how far along, and what came back.",
+  "version": "0.3.0",
+  "publisher": "simon",
+  "author": {
+    "name": "businessbaum"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/businessbaum/VS-Claude-Agent-Manager"
+  },
+  "icon": "resources/icon.png",
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "claude",
+    "claude code",
+    "agents",
+    "background tasks",
+    "subagents"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true,
+      "restrictedConfigurations": [
+        "claudeTasks.claudeConfigDir"
+      ]
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "viewsContainers": {
+      "secondarySidebar": [
+        {
+          "id": "claudeTasks",
+          "title": "Claude Agents",
+          "icon": "resources/tasks.svg"
+        }
+      ]
+    },
+    "views": {
+      "claudeTasks": [
+        {
+          "id": "claudeTasks.view",
+          "name": "Background Tasks",
+          "icon": "resources/tasks.svg",
+          "contextualTitle": "Claude Background Tasks",
+          "type": "webview"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "claudeTasks.show",
+        "title": "Claude Agents — nothing running",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "claudeTasks.showRunning",
+        "title": "Claude Agents — running",
+        "icon": "$(sync~spin)"
+      },
+      {
+        "command": "claudeTasks.refresh",
+        "title": "Refresh",
+        "category": "Claude Tasks",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "claudeTasks.toggleFinished",
+        "title": "Show/Hide Finished Tasks",
+        "category": "Claude Tasks",
+        "icon": "$(history)"
+      },
+      {
+        "command": "claudeTasks.openTranscript",
+        "title": "Open Transcript",
+        "category": "Claude Tasks",
+        "icon": "$(book)"
+      },
+      {
+        "command": "claudeTasks.openRaw",
+        "title": "Open Raw JSONL",
+        "category": "Claude Tasks"
+      },
+      {
+        "command": "claudeTasks.copyPrompt",
+        "title": "Copy Prompt",
+        "category": "Claude Tasks"
+      },
+      {
+        "command": "claudeTasks.copyId",
+        "title": "Copy Task ID",
+        "category": "Claude Tasks"
+      },
+      {
+        "command": "claudeTasks.openShellOutput",
+        "title": "Open Background Output",
+        "category": "Claude Tasks",
+        "icon": "$(terminal)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "claudeTasks.toggleFinished",
+          "when": "view == claudeTasks.view",
+          "group": "navigation@1"
+        },
+        {
+          "command": "claudeTasks.refresh",
+          "when": "view == claudeTasks.view",
+          "group": "navigation@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "claudeTasks.openTranscript",
+          "when": "false"
+        },
+        {
+          "command": "claudeTasks.openRaw",
+          "when": "false"
+        },
+        {
+          "command": "claudeTasks.copyPrompt",
+          "when": "false"
+        },
+        {
+          "command": "claudeTasks.copyId",
+          "when": "false"
+        },
+        {
+          "command": "claudeTasks.openShellOutput",
+          "when": "false"
+        },
+        {
+          "command": "claudeTasks.show",
+          "when": "false"
+        },
+        {
+          "command": "claudeTasks.showRunning",
+          "when": "false"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "claudeTasks.show",
+          "when": "!claudeTasks.running",
+          "group": "navigation@100"
+        },
+        {
+          "command": "claudeTasks.showRunning",
+          "when": "claudeTasks.running",
+          "group": "navigation@100"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Claude Background Tasks",
+      "properties": {
+        "claudeTasks.sessionMaxAgeHours": {
+          "type": "number",
+          "default": 24,
+          "markdownDescription": "Only consider Claude sessions whose transcript was written within this many hours. Raise it to see older runs."
+        },
+        "claudeTasks.includeNestedSessions": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Also list sessions Claude started in a subdirectory of an open workspace folder. Turn this off if a sibling folder whose name shares a prefix (`app-other` vs `app/other`) shows up in the panel."
+        },
+        "claudeTasks.showFinished": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the 'Finished' group in addition to running tasks."
+        },
+        "claudeTasks.finishedLimit": {
+          "type": "number",
+          "default": 25,
+          "description": "How many finished tasks to keep in the list."
+        },
+        "claudeTasks.pollIntervalMs": {
+          "type": "number",
+          "default": 1500,
+          "description": "Backstop poll interval in milliseconds, used in addition to filesystem watching."
+        },
+        "claudeTasks.statusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a status bar item with the number of running background tasks."
+        },
+        "claudeTasks.claudeConfigDir": {
+          "type": "string",
+          "default": "",
+          "description": "Override the Claude config directory. Defaults to $CLAUDE_CONFIG_DIR, then ~/.claude."
+        }
+      }
+    }
+  }
+}

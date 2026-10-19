@@ -1,0 +1,11 @@
+# Build output — the .vsix is a release artifact, not source.
+*.vsix
+
+node_modules/
+.DS_Store
+
+# Alte Versionen (Historie steckt ab jetzt in Git)
+backup/
+
+# Claude Code lokal
+.claude/settings.local.json
