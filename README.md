@@ -3,7 +3,7 @@
 <img src="resources/icon.png" width="72" alt="Claude Background Tasks icon">
 
 # Claude Background Tasks
-# NOTE: This Project is outdated and the Function itself was added by Claude
+# NOTE: This project is outdated and the function itself was added by Claude
 **A panel for VS Code that shows what Claude Code is doing in the background: which agents and commands are running, how far they are and what they returned.**
 
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.94%20or%20newer-007ACC?logo=visualstudiocode&logoColor=white)
